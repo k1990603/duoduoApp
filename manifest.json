@@ -1,41 +1,55 @@
 {
-	"name" : "duoduoApp",
-	"appid" : "",
-	"description": "图片App模版",
-	"transformPx": false,
-	"icons": [{
-		"sizes": "分辨率，192x192",
-		"src": "图片路径"
-	}],
-	"versionName": "1.0.2",
-	"versionCode": 102,
-	"app-plus": {
-		"usingComponents": true,
-		"compilerVersion": 3
-	},
-	// 5+App特有相关
-	"quickapp": {},
-	// 快应用特有相关
-	"mp-weixin": {
-		"setting": {
-			"urlCheck": false
-		},
-		"usingComponents": true
-	},
-	"mp-alipay": {
-		"usingComponents": true
-	},
-	"mp-baidu": {
-		"usingComponents": true
-	},
-	"mp-toutiao": {
-		"usingComponents": true
-	},
-	"h5": {
-		"template": "template.h5.html",
-		"router": {
-			"mode": "hash",
-			"base": "/demo/picture/website/"
-		}
-	}
+    "name" : "duoduoApp",
+    "appid" : "",
+    "description" : "图片App模版",
+    "transformPx" : false,
+    "icons" : [
+        {
+            "sizes" : "分辨率，192x192",
+            "src" : "图片路径"
+        }
+    ],
+    "versionName" : "1.0.2",
+    "versionCode" : 102,
+    "app-plus" : {
+        "usingComponents" : true,
+        "compilerVersion" : 3
+    },
+    // 5+App特有相关
+    "quickapp" : {},
+    // 快应用特有相关
+    "mp-weixin" : {
+        "setting" : {
+            "urlCheck" : false
+        },
+        "usingComponents" : true
+    },
+    "mp-alipay" : {
+        "usingComponents" : true
+    },
+    "mp-baidu" : {
+        "usingComponents" : true
+    },
+    "mp-toutiao" : {
+        "usingComponents" : true
+    },
+    "h5" : {
+        "template" : "template.h5.html",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/demo/picture/website/"
+        },
+		"devServer": {
+		            "port": 8000,
+		            "disableHostCheck": true,
+		            "proxy": {
+		                "/duojinbao": {
+		                    "target": "http://10.0.6.168:8081",
+		                    "changeOrigin": true,
+		                    "secure": false
+		                }
+		            }
+		        },
+        "domain" : "hjeee.com.cn"
+    }
 }

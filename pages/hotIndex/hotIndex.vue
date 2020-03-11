@@ -1,14 +1,5 @@
 <template>
 	<view class="index">
-		<s-tabs v-model="activeTab" @change="change" :nav-per-view="5">
-			<s-tab v-for="(item, index) in titleList" :key="index" :title="item.name"></s-tab>
-			<!-- <s-tab title="Tab1"></s-tab>
-			<s-tab title="Tab2"></s-tab>
-			<s-tab title="Tab3"></s-tab>
-			<s-tab title="Tab4"></s-tab>
-			<s-tab title="Tab5"></s-tab>
-			<s-tab title="Tab6"></s-tab> -->
-		</s-tabs>
 		<view class="grid">
 			<view class="grid-c-06" v-for="item in lists" :key="item.guid">
 				<view class="panel" @click="goDetail(item)">
@@ -28,84 +19,13 @@
 </template>
 
 <script>
-	import sTabs from '../../components/s-tabs/index.vue'
-	import sTab from '../../components/s-tab/index.vue'
 	export default {
-		components: {
-			sTabs,
-			sTab
-		},
 		data() {
 			return {
 				refreshing: false,
 				lists: [],
 				fetchPageNum: 1,
-				activeTab: 0,
-				titleList: [
-					// {
-					// 	name: '精选'
-					// },
-					// {
-					// 	name: '推荐'
-					// },
-					{
-						name: '清仓'
-					},
-					{
-						name: '百货'
-					},
-					{
-						name: '母婴'
-					},
-					{
-						name: '食品'
-					},
-					{
-						name: '女装'
-					},
-					{
-						name: '电器'
-					},
-					{
-						name: '鞋包'
-					},
-					{
-						name: '内衣'
-					},
-					{
-						name: '美妆'
-					},
-					{
-						name: '男装'
-					},
-					{
-						name: '水果'
-					},
-					{
-						name: '家纺'
-					},
-					{
-						name: '文具'
-					},
-					{
-						name: '运动'
-					},
-					{
-						name: '虚拟'
-					},
-					{
-						name: '汽车'
-					},
-					{
-						name: '家装'
-					},
-					{
-						name: '家具'
-					},
-					{
-						name: '医药'
-					},
-				],
+				activeTab: 0
 			}
 		},
 		onLoad() {
@@ -153,9 +73,6 @@
 			this.getData();
 		},
 		methods: {
-			change(index) {
-				console.log(index);
-			},
 			getData() {
 				uni.request({
 					url: this.$serverUrl + '/api/picture/posts.php?page=' + (this.refreshing ? 1 : this.fetchPageNum) +

@@ -10,7 +10,7 @@
 	width: 750upx;
 	min-height: 100vh;
 	flex-direction: column;
-	justify-content: center;
+	/* justify-content: center; */
 	align-items: center;
 }
 
@@ -34,7 +34,7 @@
 
 .card-img {
 	width: 710upx;
-	height: 1065upx;
+	/* height: 1065upx; */
 }
 
 .card-num {
@@ -415,11 +415,13 @@ button.register {
 
 .grid {
 	display: flex;
-	flex-direction: row;
+	/* flex-direction: row; */
+	flex-direction: column;
 	flex-wrap: wrap;
 	padding-left: 5px;
 	padding-right: 5px;
 	box-sizing: border-box;
+	width: 100%;
 }
 
 .grid-c-01,
@@ -484,8 +486,8 @@ button.register {
 }
 
 .grid-c-06 {
-	flex: 0 0 50%;
-	max-width: 50%;
+	/* flex: 0 0 50%; */
+	/* max-width: 50%; */
 }
 
 .grid-c-07 {
@@ -520,9 +522,36 @@ button.register {
 
 .panel {
 	position: relative;
-	border-radius: 10upx;
+	/* border-radius: 10upx; */
+	border-top-left-radius:10upx;
+	border-bottom-left-radius:10upx;
 	overflow: hidden;
 	flex-direction: column;
 	background-color: #FFFFFF;
 	margin-bottom: 10px;
+	width: 50%;
+}
+.panel>image{
+	border-radius: 10upx;
+}
+.panel2 {
+	position: relative;
+	/* border-radius: 10upx; */
+	overflow: hidden;
+	padding: 10upx;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 50%;
+	flex-direction: column;
+	background-color: #FFFFFF;
+	margin-bottom: 10px;
+}
+
+.clear-fix::after {
+  content: '';
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
 }
