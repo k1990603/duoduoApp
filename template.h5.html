@@ -32,13 +32,15 @@
 		<div id="app"></div>
 		<!-- built files will be auto injected -->
 		<script>
-			var _hmt = _hmt || [];
-			(function() {
-				var hm = document.createElement("script");
-				hm.src = "https://hm.baidu.com/hm.js?fe3b7a223fc08c795f0f4b6350703e6f";
-				var s = document.getElementsByTagName("script")[0];
-				s.parentNode.insertBefore(hm, s);
-			})();
+			 (function () {
+			  var userAgent = navigator.userAgent
+			  window.addEventListener('resize', function () {
+			    if (navigator.userAgent !== userAgent) {
+			      /* eslint-disable no-undef */
+			      location.reload()
+			    }
+			  })
+			})()
 		</script>
 	</body>
 </html>

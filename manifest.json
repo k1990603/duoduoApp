@@ -39,17 +39,20 @@
             "mode" : "hash",
             "base" : "/demo/picture/website/"
         },
-		"devServer": {
-		            "port": 8000,
-		            "disableHostCheck": true,
-		            "proxy": {
-		                "/duojinbao": {
-		                    "target": "http://10.0.6.168:8081",
-		                    "changeOrigin": true,
-		                    "secure": false
-		                }
-		            }
-		        },
-        "domain" : "hjeee.com.cn"
+		// "devServer": {
+		//             "port": 8000,
+		//             "disableHostCheck": true,
+		//             "proxy": {
+		//                 "/": {
+		//                     "target": "http://www.hjeee.com.cn",
+		//                     "changeOrigin": true,
+		//                     "secure": false,
+		// 					"pathRewrite": {
+		// 					   // "^/": "/"  
+		// 					 }
+		//                 }
+		//             }
+		//         },
+        "domain" : "http://www.hjeee.com.cn"
     }
 }

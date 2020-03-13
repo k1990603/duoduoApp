@@ -14,7 +14,9 @@
 				</view>
 			</view>
 		</view>
-		<text class="loadMore">加载中...</text>
+		<text v-if="isLoadMore" class="loadMore">加载中...</text>
+		<image v-if="!isLoadMore && !lists.length" class="imgNoData" src="../../static/no-data1.png" mode="aspectFit" />
+		<text v-if="!isLoadMore && !lists.length" class="imgtext">暂无数据</text>
 	</view>
 </template>
 
@@ -25,6 +27,8 @@
 				refreshing: false,
 				lists: [],
 				fetchPageNum: 1,
+				pageSize: 10,
+				isLoadMore: true,
 				activeTab: 0
 			}
 		},
@@ -73,15 +77,42 @@
 			this.getData();
 		},
 		methods: {
+			labelClick(item, status) {
+			      if (status) {
+			        this.$set(item, 'status', true)
+			      } else {
+			        this.$set(item, 'status', false)
+			      }
+			    },
 			getData() {
 				uni.request({
-					url: this.$serverUrl + '/api/picture/posts.php?page=' + (this.refreshing ? 1 : this.fetchPageNum) +
-						'&per_page=10',
-					success: (ret) => {
-						console.log(ret)
-						if (ret.statusCode !== 200) {
+					// url: this.$serverUrl + '/api/picture/posts.php?page=' + (this.refreshing ? 1 : this.fetchPageNum) +
+					// 	'&per_page=10',
+					url: this.$serverUrl + '/duojinbao/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
+						'&pageSize=10&type=推荐',
+					success: (res) => {
+						// console.log(ret)
+						let ret = res.data
+						if (ret.code !== 200) {
 							console.log('请求失败:', ret)
 						} else {
+							if (this.isLoadMore && (((this.fetchPageNum-1)*this.pageSize + ret.data.length) >= ret.count)) {
+								// console.log(1111)
+								this.isLoadMore = false;
+								uni.stopPullDownRefresh();
+								// this.refreshing = false;
+								return;
+							}
+							// console.log(ret.data.length, 8888)
+							if (ret.data.length <= 0) {
+								uni.showToast({
+									title: '列表为空',
+									icon: 'none',
+								});
+								this.refreshing = false;
+								uni.stopPullDownRefresh();
+								return;
+							}
 							if (this.refreshing && ret.data[0].id === this.lists[0].id) {
 								uni.showToast({
 									title: '已经最新',
@@ -109,6 +140,13 @@
 								this.fetchPageNum += 1;
 							}
 						}
+					},
+					fail: (e) => {
+						uni.showModal({
+							content: '请求失败，请重试!',
+							showCancel: false
+						})
+						this.isLoadMore = false
 					}
 				});
 			},
@@ -118,47 +156,47 @@
 				}
 				return (s4() + s4() + "-" + s4() + "-4" + s4().substr(0, 3) + "-" + s4() + "-" + s4() + s4() + s4()).toUpperCase();
 			},
-			goDetail(e) {
-				uni.navigateTo({
-					url: '../detail/detail?data=' + encodeURIComponent(JSON.stringify(e))
-				})
-			},
-			share(e) {
-				if (this.providerList.length === 0) {
-					uni.showModal({
-						title: '当前环境无分享渠道!',
-						showCancel: false
-					})
-					return;
-				}
-				let itemList = this.providerList.map(function(value) {
-					return value.name
-				})
-				uni.showActionSheet({
-					itemList: itemList,
-					success: (res) => {
-						uni.share({
-							provider: this.providerList[res.tapIndex].id,
-							scene: this.providerList[res.tapIndex].type && this.providerList[res.tapIndex].type === 'WXSenceTimeline' ?
-								'WXSenceTimeline' : 'WXSceneSession',
-							type: 0,
-							title: 'uni-app模版',
-							summary: e.title,
-							imageUrl: e.img_src,
-							href: 'https://uniapp.dcloud.io',
-							success: (res) => {
-								console.log('success:' + JSON.stringify(res));
-							},
-							fail: (e) => {
-								uni.showModal({
-									content: e.errMsg,
-									showCancel: false
-								})
-							}
-						});
-					}
-				})
-			}
+			// goDetail(e) {
+			// 	uni.navigateTo({
+			// 		url: '../detail/detail?data=' + encodeURIComponent(JSON.stringify(e))
+			// 	})
+			// },
+			// share(e) {
+			// 	if (this.providerList.length === 0) {
+			// 		uni.showModal({
+			// 			title: '当前环境无分享渠道!',
+			// 			showCancel: false
+			// 		})
+			// 		return;
+			// 	}
+			// 	let itemList = this.providerList.map(function(value) {
+			// 		return value.name
+			// 	})
+			// 	uni.showActionSheet({
+			// 		itemList: itemList,
+			// 		success: (res) => {
+			// 			uni.share({
+			// 				provider: this.providerList[res.tapIndex].id,
+			// 				scene: this.providerList[res.tapIndex].type && this.providerList[res.tapIndex].type === 'WXSenceTimeline' ?
+			// 					'WXSenceTimeline' : 'WXSceneSession',
+			// 				type: 0,
+			// 				title: 'uni-app模版',
+			// 				summary: e.title,
+			// 				imageUrl: e.img_src,
+			// 				href: 'https://uniapp.dcloud.io',
+			// 				success: (res) => {
+			// 					console.log('success:' + JSON.stringify(res));
+			// 				},
+			// 				fail: (e) => {
+			// 					uni.showModal({
+			// 						content: e.errMsg,
+			// 						showCancel: false
+			// 					})
+			// 				}
+			// 			});
+			// 		}
+			// 	})
+			// }
 		}
 	}
 </script>

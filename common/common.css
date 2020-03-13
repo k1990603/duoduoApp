@@ -14,6 +14,15 @@
 	align-items: center;
 }
 
+.imgNoData {
+	width: 30%;
+}
+
+.index .imgtext {
+	/* margin-top: 30px; */
+	color: #666666;
+}
+
 .row {
 	flex-direction: row;
 }
@@ -523,17 +532,19 @@ button.register {
 .panel {
 	position: relative;
 	/* border-radius: 10upx; */
-	border-top-left-radius:10upx;
-	border-bottom-left-radius:10upx;
+	border-top-left-radius: 10upx;
+	border-bottom-left-radius: 10upx;
 	overflow: hidden;
 	flex-direction: column;
 	background-color: #FFFFFF;
 	margin-bottom: 10px;
 	width: 50%;
 }
-.panel>image{
+
+.panel>image {
 	border-radius: 10upx;
 }
+
 .panel2 {
 	position: relative;
 	/* border-radius: 10upx; */
@@ -549,9 +560,9 @@ button.register {
 }
 
 .clear-fix::after {
-  content: '';
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
+	content: '';
+	display: block;
+	visibility: hidden;
+	height: 0;
+	clear: both;
 }

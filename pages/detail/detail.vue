@@ -40,9 +40,11 @@
 			this.screenHeight = uni.getSystemInfoSync().windowHeight;
 			this.detailDec = e.data;
 			let data = JSON.parse(decodeURIComponent(e.data));
-			this.imgLength = data.img_num;
-			this.data.push(data.img_src);
-			this.getData(data.id);
+			// console.log(data, 9999)
+			this.imgLength = 1;
+			// this.data.push(data.img_src);
+			// this.getData(data.id);
+			this.getData(data);
 			uni.setNavigationBarTitle({
 				title: "1/" + this.imgLength
 			});
@@ -227,27 +229,29 @@
 					})
 				}, 150)
 			},
-			getData(e) {
-				uni.request({
-					url: this.$serverUrl + '/api/picture/detail.php?id=' + e,
-					success: (res) => {
-						if (res.data.code !== 0) {
-							uni.showModal({
-								content: '请求失败，失败原因：' + res.data.msg,
-								showCancel: false
-							})
-							return;
-						}
+			getData(item) {
+				this.data = this.data.concat(item.text.goodsThumbnailUrl || item.text.goodsImageUrl);
+				console.log(this.data, 9999)
+				// uni.request({
+				// 	url: this.$serverUrl + '/api/picture/detail.php?id=' + e,
+				// 	success: (res) => {
+				// 		if (res.data.code !== 0) {
+				// 			uni.showModal({
+				// 				content: '请求失败，失败原因：' + res.data.msg,
+				// 				showCancel: false
+				// 			})
+				// 			return;
+				// 		}
 
-						this.data = this.data.concat(res.data.data);
-					},
-					fail: () => {
-						uni.showModal({
-							content: '请求失败，请重试!',
-							showCancel: false
-						})
-					}
-				})
+				// 		this.data = this.data.concat(res.data.data);
+				// 	},
+				// 	fail: () => {
+				// 		uni.showModal({
+				// 			content: '请求失败，请重试!',
+				// 			showCancel: false
+				// 		})
+				// 	}
+				// })
 			}
 		}
 	}
