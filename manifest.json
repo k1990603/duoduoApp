@@ -1,6 +1,6 @@
 {
     "name" : "duoduoApp",
-    "appid" : "",
+    "appid" : "__UNI__2C066A9",
     "description" : "图片App模版",
     "transformPx" : false,
     "icons" : [
@@ -13,7 +13,41 @@
     "versionCode" : 102,
     "app-plus" : {
         "usingComponents" : true,
-        "compilerVersion" : 3
+        "compilerVersion" : 3,
+        "distribute" : {
+            "icons" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    }
+                }
+            }
+        }
     },
     // 5+App特有相关
     "quickapp" : {},
@@ -33,26 +67,33 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
+    "networkTimeout" : {
+        "request" : 60000,
+        "connectSocket" : 60000,
+        "uploadFile" : 60000,
+        "downloadFile" : 60000
+    },
     "h5" : {
         "template" : "template.h5.html",
         "router" : {
             "mode" : "hash",
-            "base" : "/demo/picture/website/"
+            "base" : "/H5"
         },
-		// "devServer": {
-		//             "port": 8000,
-		//             "disableHostCheck": true,
-		//             "proxy": {
-		//                 "/": {
-		//                     "target": "http://www.hjeee.com.cn",
-		//                     "changeOrigin": true,
-		//                     "secure": false,
-		// 					"pathRewrite": {
-		// 					   // "^/": "/"  
-		// 					 }
-		//                 }
-		//             }
-		//         },
-        "domain" : "http://www.hjeee.com.cn"
+        // "devServer": {
+        //             "port": 8000,
+        //             "disableHostCheck": true,
+        //             "proxy": {
+        //                 "/": {
+        //                     "target": "http://www.hjeee.com.cn",
+        //                     "changeOrigin": true,
+        //                     "secure": false,
+        // 					"pathRewrite": {
+        // 					   // "^/": "/"  
+        // 					 }
+        //                 }
+        //             }
+        //         },
+        "domain" : "http://www.hjeee.com.cn",
+        "title" : "拼多多优惠券"
     }
 }

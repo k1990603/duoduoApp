@@ -1,5 +1,9 @@
 <template>
 	<view class="index">
+		<view class="search-box clear-fix" @click='toSearch'>
+		  <image class="search-image fl" src="../../static/home-search.png"></image>
+		  <view class="search-font fl">{{ searchName ? searchName : '搜索您想要的商品' }}</view>
+		</view>
 		<productList :lists="lists" @labelClick="labelClick"></productList>
 		<text v-if="isLoadMore" class="loadMore">加载中...</text>
 		<!-- <text>{{ !isLoadMore && !lists.length }}</text> -->
@@ -18,50 +22,70 @@
 				fetchPageNum: 1,
 				pageSize: 10,
 				isLoadMore: true,
-				activeTab: 0
+				activeTab: 0,
+				searchName: undefined
 			}
 		},
 		components: {
 			productList
 		},
-		onLoad() {
-			this.getData();
-			uni.getProvider({
-				service: 'share',
-				success: (e) => {
-					let data = [];
-					for (let i = 0; i < e.provider.length; i++) {
-						switch (e.provider[i]) {
-							case 'weixin':
-								data.push({
-									name: '分享到微信好友',
-									id: 'weixin'
-								});
-								data.push({
-									name: '分享到微信朋友圈',
-									id: 'weixin',
-									type: 'WXSenceTimeline'
-								});
-								break;
-							case 'qq':
-								data.push({
-									name: '分享到QQ',
-									id: 'qq'
-								});
-								break;
-							default:
-								break;
-						}
+		onShow(){
+			let that = this
+			uni.getStorage({
+			    key: 'productName',
+			    success: function (res) {
+			        // console.log(res.data, 'product');
+					if (res.data) {
+						that.searchName = res.data
+						that.getData();
 					}
-					this.providerList = data;
-				},
-				fail: (e) => {
-					console.log('获取登录通道失败', e);
-				}
+			    }
 			});
+		},
+		onLoad(option) {
+			let id = option.id
+			if (id) {
+				this.getData(id);
+			} else {
+				this.getData();
+			}
+			// uni.getProvider({
+			// 	service: 'share',
+			// 	success: (e) => {
+			// 		let data = [];
+			// 		for (let i = 0; i < e.provider.length; i++) {
+			// 			switch (e.provider[i]) {
+			// 				case 'weixin':
+			// 					data.push({
+			// 						name: '分享到微信好友',
+			// 						id: 'weixin'
+			// 					});
+			// 					data.push({
+			// 						name: '分享到微信朋友圈',
+			// 						id: 'weixin',
+			// 						type: 'WXSenceTimeline'
+			// 					});
+			// 					break;
+			// 				case 'qq':
+			// 					data.push({
+			// 						name: '分享到QQ',
+			// 						id: 'qq'
+			// 					});
+			// 					break;
+			// 				default:
+			// 					break;
+			// 			}
+			// 		}
+			// 		this.providerList = data;
+			// 	},
+			// 	fail: (e) => {
+			// 		console.log('获取登录通道失败', e);
+			// 	}
+			// });
 		},
 		onPullDownRefresh() {
 			console.log('下拉刷新');
+			this.searchName = undefined;
 			this.refreshing = true;
 			this.getData();
 		},
@@ -69,6 +93,11 @@
 			this.getData();
 		},
 		methods: {
+			toSearch() {
+					uni.navigateTo({
+						url: '../HM-search/HM-search'
+					})
+			},
 			labelClick(item, status) {
 			      if (status) {
 			        this.$set(item, 'status', true)
@@ -76,14 +105,27 @@
 			        this.$set(item, 'status', false)
 			      }
 			    },
-			getData() {
+			getData(id) {
+				let urlData =''
+				// console.log(id, 'id')
+				let serverUrl = this.$serverUrl
+				let pageNumber = this.refreshing ? 1 : this.fetchPageNum
+				let pageSize = this.pageSize
+				let name = this.searchName
+				if (id) {
+					urlData = `${serverUrl}/duojinbao/facai/page?pageNumber=${pageNumber}&pageSize=${pageSize}&type=精选&name= ${name}&id=${id}`
+				} else {
+					// urlData = this.$serverUrl + '/duojinbao/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
+					// 		'&pageSize='+ this.pageSize +'&type=精选&name=' + this.searchName
+					urlData = `${serverUrl}/duojinbao/facai/page?pageNumber=${pageNumber}&pageSize=${pageSize}&type=精选&name= ${name}`
+				}
+				
 				uni.request({
-					// url: this.$serverUrl + '/api/picture/posts.php?page=' + (this.refreshing ? 1 : this.fetchPageNum) +
-					// 	'&per_page=10',
-					url: this.$serverUrl + '/duojinbao/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
-						'&pageSize='+ this.pageSize +'&type=精选',
+					url: urlData,
 					// url: this.$serverUrl + '/duojinbaon/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
 					// 	'&pageSize='+ this.pageSize +'&type=精选',
+					method: 'GET',
+					sslVerify: false,
 					success: (res) => {
 						let ret = res.data
 						console.log(ret)
@@ -138,6 +180,7 @@
 						}
 					},
 					fail: (e) => {
+						console.log(e, 'error')
 						uni.showModal({
 							content: '请求失败，请重试!',
 							showCancel: false
@@ -198,164 +241,38 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.grid {
 		padding-top: 10px;
-	}
-	/* 11111 */
-	.goods-info {
-	  font-size: 12px;
-	  position: relative;
-	  overflow: hidden;
-	  /* width: 100%; */
-	  /* height: 172px; */
-	  /* height: 190px; */
-	  padding: 0 10px 10px;
-	  box-sizing: border-box;
-	  color: #59585b;
-	}
-	.goods-info .goods-title {
-	  color: #333;
-	  margin-top: 10px;
-	  display: flex;
-	  align-items: center;
-	}
-	.goods-info .goods-title .text {
-	  font-size: 13px;
-	  line-height: 16px;
-	  /* height: 16px; */
-	  padding-bottom: 3px;
-	  /* flex: 1; */
-	  /* overflow: hidden; */
-	}
-	/* 2222 */
-	.goods-info .data-info {
-		display: flex;
-		margin-top: 7px;
-	}
-
-	.goods-info .label-info {
-		height: 17px;
-		display: flex;
-		font-weight: 400;
-		margin-top: 8px;
-		white-space: nowrap;
-	}
-
-	.goods-info .label-info .coupons-info {
-		display: flex;
-		box-sizing: border-box;
-		margin-right: 4px;
-	}
-
-	.goods-info .label-info .coupons-info .coupon-discount {
-		font-size: 12px;
-		color: #fff;
-		background-color: #e3544c;
-		border-radius: 1px 0 0 1px;
-		padding: 0 1px 0 2px;
-	}
-
-	.goods-info .label-info .coupons-info .coupon-surplus {
-		line-height: 15px;
-		display: inline-block;
-		position: relative;
-		color: #e3544c;
-		font-size: 12px;
-		padding: 0 2px;
-		border-radius: 0 1px 1px 0;
-		border: 1px solid #e3544c;
-	}
-
-	.goods-info .sale-info {
-		display: flex;
-		justify-content: space-between;
-		color: #9c9c9c;
-		font-weight: 400;
-		margin-top: 7px;
-	}
-
-	.goods-info .sale-info .goods-sale {
-		white-space: nowrap;
-	}
-
-	.goods-info .sale-info .store-name {
-		height: 19px;
-		text-align: right;
-		max-width: 110px;
-		text-overflow: clip;
-		/* overflow: hidden; */
-	}
-
-	.goods-info .btn {
-		box-sizing: border-box;
-		font-size: 16px;
-		height: 38px;
-		line-height: 36px;
-		border: 1px solid #e3544c;
-		color: #e3544c;
-		margin-top: 5px;
-		text-align: center;
-		user-select: none;
-		border-radius: 2px;
-		transition: all 0.2s;
-		cursor: pointer;
-	}
-
-	.goods-info .btn:hover {
-		color: #fff;
-		background-color: #e3544c;
-		border: 1px solid #ffffff;
-	}
-
-	/* 88888 */
-	.goods-info .data-info .data-block .data-price {
-		color: #151516;
-		font-size: 15px;
-		font-weight: 700;
-	}
-
-	.goods-info .data-info .data-block .data-text {
-		color: #9c9c9c;
-		font-size: 12px;
-		font-weight: 400;
-		margin-top: -1px;
-	}
-
-	.singleGroup {
-		/* position: absolute;
-	  top: 0;
-	  left: 0;
-	  z-index: 101; */
-		display: flex;
-		/* justify-content: space-between; */
-		/* color: #9c9c9c; */
-		font-weight: 400;
-		margin-top: 7px;
-	}
-
-	.singleGroup>text {
-		border: 1px solid #dbdbdb;
-		background-color: transparent;
-		padding: 5px 8px;
-		cursor: pointer;
-	}
-
-	.singleGroup text:first-child {
-		border-top-left-radius: 3px;
-		border-bottom-left-radius: 3px;
-		border-right-width: 0;
-	}
-
-	.singleGroup text:last-child {
-		border-top-right-radius: 3px;
-		border-bottom-right-radius: 3px;
-		border-left-width: 0;
-	}
-
-	.singleGroup>text.active {
-		color: #E3544C;
-		border-color: #E3544C;
-		border-width: 1px;
+		}
+	.index {
+		.search-box {
+		  width: 720upx;
+		  height: 72upx;
+		  background-color: #fafdff;
+		  border-radius: 4px;
+		  opacity: 0.9;
+		  margin-top: 30upx;
+		  // position: absolute;
+		  // left: 15upx;
+		  // top: 196upx;
+		  // right: 15upx;
+		}
+		
+		.search-box .search-image {
+		  width: 40upx;
+		  height: 40upx;
+		  margin-left: 223upx;
+		  margin-top: 15upx;
+		}
+		
+		.search-box .search-font {
+		  font-size: 28upx;
+		  line-height: 40upx;
+		  color: #898f94;
+		  margin-right: 223upx;
+		  margin-top: 17upx;
+		  margin-left: 11upx;
+		}
 	}
 </style>

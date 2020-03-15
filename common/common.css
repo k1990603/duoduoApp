@@ -10,7 +10,7 @@
 	width: 750upx;
 	min-height: 100vh;
 	flex-direction: column;
-	/* justify-content: center; */
+	justify-content: center;
 	align-items: center;
 }
 
@@ -78,7 +78,7 @@
 	align-items: center;
 	padding: 14upx 0;
 	color: #FF80AB;
-	margin: 20upx 20upx 20upx;
+	margin: 10upx 20upx 10upx;
 	font-size: 30upx;
 	font-family: texticons;
 }

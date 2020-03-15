@@ -1,15 +1,15 @@
 <template>
 	<view class="grid">
 		<view class="grid-c-06" v-for="(item, index) in lists" :key="index">
-			<view class="panel" @click="goDetail(item)">
-				<!-- <div height="224" offset="800" placeholder="[object Object]">
+			<view class="panel img-wrapper" @click="goDetail(item)">
+				<div height="224" offset="800" placeholder="[object Object]">
 					<img :src="(item.text.goodsThumbnailUrl || item.text.goodsImageUrl)+'@15w_1l_50Q.JP2'" alt=" " class="light" />
 				</div>
 				<div height="224">
 					<img :src="(item.text.goodsThumbnailUrl || item.text.goodsImageUrl)+'@500w_1l_50Q.JP2'" alt=" " class="normal" />
-				</div> -->
-				<!-- <img class="animation-img" :src="(item.text.goodsThumbnailUrl || item.text.goodsImageUrl)" style="transform: translate(0px, 0px);" /> -->
-				<image class="card-img card-list2-img" :src="(item.text.goodsThumbnailUrl || item.text.goodsImageUrl)+'@500w_1l_50Q.JP2'"></image>
+				</div>
+				<img class="animation-img" :src="(item.text.goodsThumbnailUrl || item.text.goodsImageUrl)" style="transform: translate(0px, 0px);" />
+				<!-- <image class="card-img card-list2-img" :src="(item.text.goodsThumbnailUrl || item.text.goodsImageUrl)+'@500w_1l_50Q.JP2'"></image> -->
 				<!-- <text class="card-num-view card-list2-num-view">{{item.img_num}}P</text>
   			<view class="card-bottm row">
   				<view class="car-title-view row">
@@ -19,12 +19,6 @@
   			</view> -->
 			</view>
 			<view class="panel2 goods-info">
-				<!-- <view class="card-bottm row">
-					<view class="car-title-view row">
-						<text class="card-title card-list2-title">{{item.title}}</text>
-					</view>
-					<view @click.stop="share(item)" class="card-share-view"></view>
-				</view> -->
 				<view class="card-bottm row">
 					<view class="car-title-view row">
 						<text class="card-title card-list2-title">{{ item.text.mallName }}</text>
@@ -41,7 +35,6 @@
 						</text>
 						<text class="data-text">券后</text>
 					</view>
-					<view class="data-block"></view>
 					<view class="data-block">
 						<text class="data-price right-align">
 							<text class="unit">￥</text><text class="unit-left">{{ item.text.minGroupPrice/1000 }}</text>
@@ -86,19 +79,59 @@
 		},
 		data() {
 			return {
-				scrollLeft: 0,
-				lineWidth: 0,
-				lineLeft: 0,
-				navList: []
+				// scrollLeft: 0,
+				// lineWidth: 0,
+				// lineLeft: 0,
+				// navList: [],
+				providerList: []
 			};
 		},
 		computed: {
-
+			// console.log(6666);
 		},
-		provide() {
-			return {
-				$tabs: this
-			};
+		// provide() {
+		// 	return {
+		// 		$tabs: this
+		// 	};
+		// },
+		// onShow() {
+		// 	console.log(2222);
+		// },
+		created() {
+			// console.log(7777)
+			uni.getProvider({
+				service: 'share',
+				success: (e) => {
+					let data = [];
+					for (let i = 0; i < e.provider.length; i++) {
+						switch (e.provider[i]) {
+							case 'weixin':
+								data.push({
+									name: '分享到微信好友',
+									id: 'weixin'
+								});
+								data.push({
+									name: '分享到微信朋友圈',
+									id: 'weixin',
+									type: 'WXSenceTimeline'
+								});
+								break;
+							case 'qq':
+								data.push({
+									name: '分享到QQ',
+									id: 'qq'
+								});
+								break;
+							default:
+								break;
+						}
+					}
+					this.providerList = data;
+				},
+				fail: (e) => {
+					console.log('获取登录通道失败', e);
+				}
+			});
 		},
 		methods: {
 			goDetail(e) {
@@ -127,6 +160,7 @@
 				// }
 			},
 			share(e) {
+				console.log(e.text.goodsName)
 				if (this.providerList.length === 0) {
 					uni.showModal({
 						title: '当前环境无分享渠道!',
@@ -146,9 +180,9 @@
 								'WXSenceTimeline' : 'WXSceneSession',
 							type: 0,
 							title: '多多优惠券',
-							summary: e.title,
-							imageUrl: e.img_src,
-							href: 'http://www.hjeee.com.cn',
+							summary: e.text.goodsName,
+							imageUrl: e.text.goodsThumbnailUrl || e.text.goodsImageUrl,
+							href: 'http://www.hjeee.com.cn?id=' + e.id,
 							success: (res) => {
 								console.log('success:' + JSON.stringify(res));
 							},
@@ -162,10 +196,10 @@
 					}
 				})
 			}
-		},
-		mounted() {
-
 		}
+		// mounted() {
+
+		// }
 	};
 </script>
 
@@ -173,7 +207,17 @@
 	.grid {
 		padding-top: 10px;
 	}
-
+	// 22222
+	.img-wrapper img {
+	    width: 226px;
+	    height: 226px;
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    bottom: 0;
+	    right: 0;
+	    margin: auto;
+	}
 	/* 11111 */
 	.goods-info {
 		font-size: 12px;
@@ -189,7 +233,7 @@
 
 	.goods-info .goods-title {
 		color: #333;
-		margin-top: 10px;
+		// margin-top: 10px;
 		display: flex;
 		align-items: center;
 	}
@@ -270,6 +314,7 @@
 		border: 1px solid #e3544c;
 		color: #e3544c;
 		margin-top: 5px;
+		padding: 0 40px;
 		text-align: center;
 		user-select: none;
 		border-radius: 2px;
@@ -293,6 +338,7 @@
 	.goods-info .data-info .data-block .data-text {
 		color: #9c9c9c;
 		font-size: 12px;
+		line-height: 24px;
 		font-weight: 400;
 		margin-top: -1px;
 	}

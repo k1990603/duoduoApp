@@ -13,7 +13,7 @@
 </script>
 
 <style>
-	@import './common/common.css';
+	@import './common/common1.css';
 
 	page,
 	view {

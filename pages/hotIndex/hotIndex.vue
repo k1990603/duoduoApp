@@ -1,6 +1,7 @@
 <template>
 	<view class="index">
-		<view class="grid">
+		<productList :lists="lists" @labelClick="labelClick"></productList>
+		<!-- <view class="grid">
 			<view class="grid-c-06" v-for="item in lists" :key="item.guid">
 				<view class="panel" @click="goDetail(item)">
 					<image class="card-img card-list2-img" :src="item.img_src"></image>
@@ -13,7 +14,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<text v-if="isLoadMore" class="loadMore">加载中...</text>
 		<image v-if="!isLoadMore && !lists.length" class="imgNoData" src="../../static/no-data1.png" mode="aspectFit" />
 		<text v-if="!isLoadMore && !lists.length" class="imgtext">暂无数据</text>
@@ -21,6 +22,7 @@
 </template>
 
 <script>
+	import productList from '../../components/product-list/index.vue'
 	export default {
 		data() {
 			return {
@@ -34,39 +36,9 @@
 		},
 		onLoad() {
 			this.getData();
-			uni.getProvider({
-				service: 'share',
-				success: (e) => {
-					let data = [];
-					for (let i = 0; i < e.provider.length; i++) {
-						switch (e.provider[i]) {
-							case 'weixin':
-								data.push({
-									name: '分享到微信好友',
-									id: 'weixin'
-								});
-								data.push({
-									name: '分享到微信朋友圈',
-									id: 'weixin',
-									type: 'WXSenceTimeline'
-								});
-								break;
-							case 'qq':
-								data.push({
-									name: '分享到QQ',
-									id: 'qq'
-								});
-								break;
-							default:
-								break;
-						}
-					}
-					this.providerList = data;
-				},
-				fail: (e) => {
-					console.log('获取登录通道失败', e);
-				}
-			});
+		},
+		components: {
+			productList
 		},
 		onPullDownRefresh() {
 			console.log('下拉刷新');
@@ -90,6 +62,8 @@
 					// 	'&per_page=10',
 					url: this.$serverUrl + '/duojinbao/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
 						'&pageSize=10&type=推荐',
+					method: 'GET',
+					sslVerify: false,
 					success: (res) => {
 						// console.log(ret)
 						let ret = res.data

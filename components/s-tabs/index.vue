@@ -98,7 +98,11 @@ export default {
     lineScale: {
       type: Number,
       default: 0.6
-    }
+    },
+	isLoadMore: {
+	  type: Object,
+	  default: undefined
+	}
   },
   data () {
     return {
@@ -133,9 +137,11 @@ export default {
   },
   methods: {
     navClick (index) {
-      if (index !== this.value) {
-        this.$emit('input', index);
-      }
+		if (this.isLoadMore != undefined) {
+		   if (index !== this.value) {
+		     this.$emit('input', index);
+		   }
+		}
     },
     refreshLine () {
       if (!this.line) return;

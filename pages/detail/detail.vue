@@ -85,7 +85,7 @@
 		},
 		onShareAppMessage() {
 			return {
-				title: '欢迎使用uni-app看图模板',
+				title: '欢迎使用看图模板',
 				path: '/pages/detail/detail?data=' + this.detailDec,
 				imageUrl: this.data[this.index]
 			}
@@ -111,10 +111,10 @@
 							scene: this.providerList[res.tapIndex].type && this.providerList[res.tapIndex].type === 'WXSenceTimeline' ?
 								'WXSenceTimeline' : 'WXSceneSession',
 							type: 0,
-							title: 'uni-app模版',
-							summary: '欢迎使用uni-app模版',
+							title: '多多优惠券',
+							summary: '欢迎使用多多优惠券',
 							imageUrl: this.data[this.index],
-							href: 'https://uniapp.dcloud.io',
+							href: 'http://www.hjeee.com.cn',
 							success: (res) => {
 								console.log('success:' + JSON.stringify(res));
 							},

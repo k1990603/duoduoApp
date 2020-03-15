@@ -1,13 +1,7 @@
 <template>
 	<view class="index">
-		<s-tabs v-model="activeTab" @change="change" :nav-per-view="5">
+		<s-tabs v-model="activeTab" @change="change" :isLoadMore="restuestOk" :nav-per-view="5">
 			<s-tab v-for="(item, index) in titleList" :key="index" :title="item.name"></s-tab>
-			<!-- <s-tab title="Tab1"></s-tab>
-			<s-tab title="Tab2"></s-tab>
-			<s-tab title="Tab3"></s-tab>
-			<s-tab title="Tab4"></s-tab>
-			<s-tab title="Tab5"></s-tab>
-			<s-tab title="Tab6"></s-tab> -->
 		</s-tabs>
 		<!-- <view class="grid">
 			<view class="grid-c-06" v-for="item in lists" :key="item.guid">
@@ -49,6 +43,7 @@
 				activeTab: 0,
 				type: '推荐',
 				isLoadMore: true,
+				restuestOk: undefined,
 				titleList: [
 					// {
 					// 	name: '精选'
@@ -162,9 +157,7 @@
 		},
 		methods: {
 			change(index) {
-				// console.log(index);
 				this.type = this.titleList[index].name;
-				// console.log(this.type)
 				this.isLoadMore = true
 				this.fetchPageNum = 1;
 				this.lists = [];
@@ -178,14 +171,18 @@
 			      }
 			    },
 			getData() {
+				this.restuestOk = undefined
 				uni.request({
 					// url: this.$serverUrl + '/api/picture/posts.php?page=' + (this.refreshing ? 1 : this.fetchPageNum) +
 					// 	'&per_page=10',
 					url: this.$serverUrl + '/duojinbao/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
 						'&pageSize='+ this.pageSize +'&type=' + this.type,
+					method: 'GET',
+					// sslVerify: false,
 					success: (res) => {
 						let ret = res.data
 						console.log(ret)
+						this.restuestOk = res.data || undefined
 						if (ret.code !== 200) {
 							console.log('请求失败:', ret)
 						} else {
@@ -242,6 +239,7 @@
 							showCancel: false
 						})
 						this.isLoadMore = false
+						this.restuestOk = {}
 					}
 				});
 			},
