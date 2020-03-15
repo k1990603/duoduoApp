@@ -1,7 +1,7 @@
 {
-    "name" : "duoduoApp",
-    "appid" : "__UNI__2C066A9",
-    "description" : "图片App模版",
+    "name" : "多多优惠券",
+    "appid" : "__UNI__946C8C8",
+    "description" : "多多优惠券",
     "transformPx" : false,
     "icons" : [
         {
@@ -46,15 +46,10 @@
                         "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
-            },
-            "splashscreen" : {
-                "android" : {
-                    "hdpi" : "/Users/admin/Desktop/logo.png"
-                }
             }
         },
         "splashscreen" : {
-            "waiting" : false,
+            "waiting" : true,
             "alwaysShowBeforeRender" : true
         }
     },
