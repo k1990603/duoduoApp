@@ -46,7 +46,16 @@
                         "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
+            },
+            "splashscreen" : {
+                "android" : {
+                    "hdpi" : "/Users/admin/Desktop/logo.png"
+                }
             }
+        },
+        "splashscreen" : {
+            "waiting" : false,
+            "alwaysShowBeforeRender" : true
         }
     },
     // 5+App特有相关
