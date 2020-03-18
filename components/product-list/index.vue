@@ -23,7 +23,7 @@
 					<view class="car-title-view row">
 						<text class="card-title card-list2-title">{{ item.text.mallName }}</text>
 					</view>
-					<view @click.stop="share(item)" class="card-share-view"></view>
+					<!-- <view @click.stop="share(item)" class="card-share-view"></view> -->
 				</view>
 				<view class="goods-title clear-fix">
 					<text class="text">{{ item.text.goodsName || '' }}</text>

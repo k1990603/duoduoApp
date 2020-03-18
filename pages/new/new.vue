@@ -34,7 +34,7 @@
 			uni.getStorage({
 			    key: 'productName',
 			    success: function (res) {
-			        // console.log(res.data, 'product');
+			        console.log(res.data, 'product');
 					if (res.data) {
 						that.searchName = res.data
 						that.getData();
@@ -44,6 +44,17 @@
 		},
 		onLoad(option) {
 			let id = option.id
+			//#ifdef H5
+				var sUserAgent = navigator.userAgent.toLowerCase();
+				if (!(/ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(sUserAgent))) {
+				  if (id) {
+				    window.location.href="http://www.hjeee.com.cn?id=" + id;
+				  } else {
+				    window.location.href="http://www.hjeee.com.cn";
+				  }
+				  return;
+				}
+			//#endif
 			if (id) {
 				this.getData(id);
 			} else {
@@ -84,10 +95,19 @@
 			// });
 		},
 		onPullDownRefresh() {
-			console.log('下拉刷新');
-			this.searchName = undefined;
-			this.refreshing = true;
-			this.getData();
+			// console.log('下拉刷新');
+			let that = this
+			uni.removeStorage({
+			    key: 'productName',
+			    success: function (res) {
+			        // console.log('success');
+					that.lists = []
+					that.searchName = undefined;
+					// that.isLoadMore = true;
+					that.refreshing = true;
+					that.getData();
+			    }
+			});
 		},
 		onReachBottom() {
 			this.getData();
@@ -117,9 +137,9 @@
 				} else {
 					// urlData = this.$serverUrl + '/duojinbao/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
 					// 		'&pageSize='+ this.pageSize +'&type=精选&name=' + this.searchName
-					urlData = `${serverUrl}/duojinbao/facai/page?pageNumber=${pageNumber}&pageSize=${pageSize}&type=精选&name= ${name}`
+					urlData = `${serverUrl}/duojinbao/facai/page?pageNumber=${pageNumber}&pageSize=${pageSize}&type=精选&name=${name}`
 				}
-				
+				this.isLoadMore = true;
 				uni.request({
 					url: urlData,
 					// url: this.$serverUrl + '/duojinbaon/facai/page?pageNumber=' + (this.refreshing ? 1 : this.fetchPageNum) +
@@ -143,22 +163,22 @@
 							// console.log(ret.data.length, 8888)
 							if (ret.data.length <= 0) {
 								uni.showToast({
-									title: '列表为空',
+									title: '没有更多数据',
 									icon: 'none',
 								});
 								this.refreshing = false;
 								uni.stopPullDownRefresh();
 								return;
 							}
-							if (this.refreshing && ret.data[0].id === this.lists[0].id) {
-								uni.showToast({
-									title: '已经最新',
-									icon: 'none',
-								});
-								this.refreshing = false;
-								uni.stopPullDownRefresh();
-								return;
-							}
+							// if (this.refreshing && ret.data[0].id === this.lists[0].id) {
+							// 	uni.showToast({
+							// 		title: '已经最新',
+							// 		icon: 'none',
+							// 	});
+							// 	this.refreshing = false;
+							// 	uni.stopPullDownRefresh();
+							// 	return;
+							// }
 							let list = [],
 								data = ret.data;
 							for (let i = 0, length = data.length; i < length; i++) {

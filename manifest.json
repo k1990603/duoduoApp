@@ -1,6 +1,6 @@
 {
     "name" : "多多优惠券",
-    "appid" : "__UNI__946C8C8",
+    "appid" : "__UNI__4600675",
     "description" : "多多优惠券",
     "transformPx" : false,
     "icons" : [
@@ -17,40 +17,71 @@
         "distribute" : {
             "icons" : {
                 "android" : {
-                    "hdpi" : "unpackage/res/icons/72x72.png",
-                    "xhdpi" : "unpackage/res/icons/96x96.png",
-                    "xxhdpi" : "unpackage/res/icons/144x144.png",
-                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                    "hdpi" : "",
+                    "xhdpi" : "",
+                    "xxhdpi" : "",
+                    "xxxhdpi" : ""
                 },
                 "ios" : {
-                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "appstore" : "",
                     "ipad" : {
-                        "app" : "unpackage/res/icons/76x76.png",
-                        "app@2x" : "unpackage/res/icons/152x152.png",
-                        "notification" : "unpackage/res/icons/20x20.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "proapp@2x" : "unpackage/res/icons/167x167.png",
-                        "settings" : "unpackage/res/icons/29x29.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "spotlight" : "unpackage/res/icons/40x40.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                        "app" : "",
+                        "app@2x" : "",
+                        "notification" : "",
+                        "notification@2x" : "",
+                        "proapp@2x" : "",
+                        "settings" : "",
+                        "settings@2x" : "",
+                        "spotlight" : "",
+                        "spotlight@2x" : ""
                     },
                     "iphone" : {
-                        "app@2x" : "unpackage/res/icons/120x120.png",
-                        "app@3x" : "unpackage/res/icons/180x180.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "notification@3x" : "unpackage/res/icons/60x60.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "settings@3x" : "unpackage/res/icons/87x87.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
-                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                        "app@2x" : "",
+                        "app@3x" : "",
+                        "notification@2x" : "",
+                        "notification@3x" : "",
+                        "settings@2x" : "",
+                        "settings@3x" : "",
+                        "spotlight@2x" : "",
+                        "spotlight@3x" : ""
                     }
                 }
+            },
+            "splashscreen" : {
+                "android" : {
+                    "hdpi" : "",
+                    "xhdpi" : "",
+                    "xxhdpi" : ""
+                },
+                "ios" : {
+                    "iphone" : {
+                        "portrait-896h@3x" : "",
+                        "landscape-896h@3x" : "/Users/admin/Desktop/logo.png",
+                        "portrait-896h@2x" : "/Users/admin/Desktop/logo.png",
+                        "landscape-896h@2x" : "/Users/admin/Desktop/logo.png",
+                        "iphonex" : "/Users/admin/Desktop/logo.png",
+                        "iphonexl" : "/Users/admin/Desktop/logo.png",
+                        "retina55" : "/Users/admin/Desktop/logo.png",
+                        "retina55l" : "/Users/admin/Desktop/logo.png",
+                        "retina47" : "/Users/admin/Desktop/logo.png"
+                    }
+                }
+            },
+            "sdkConfigs" : {
+                "share" : {}
+            },
+            "android" : {
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>"
+                ]
             }
         },
         "splashscreen" : {
-            "waiting" : true,
-            "alwaysShowBeforeRender" : true
+            "waiting" : false,
+            "alwaysShowBeforeRender" : false
+        },
+        "modules" : {
+            "Share" : {}
         }
     },
     // 5+App特有相关
@@ -83,21 +114,10 @@
             "mode" : "hash",
             "base" : "/H5"
         },
-        // "devServer": {
-        //             "port": 8000,
-        //             "disableHostCheck": true,
-        //             "proxy": {
-        //                 "/": {
-        //                     "target": "http://www.hjeee.com.cn",
-        //                     "changeOrigin": true,
-        //                     "secure": false,
-        // 					"pathRewrite": {
-        // 					   // "^/": "/"  
-        // 					 }
-        //                 }
-        //             }
-        //         },
-        "domain" : "http://www.hjeee.com.cn",
-        "title" : "拼多多优惠券"
+        "title" : "多多优惠券",
+        "devServer" : {
+            "https" : false
+        },
+        "domain" : "http://www.hjeee.com.cn"
     }
 }

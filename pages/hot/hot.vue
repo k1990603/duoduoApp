@@ -41,7 +41,7 @@
 				fetchPageNum: 1,
 				pageSize: 10,
 				activeTab: 0,
-				type: '推荐',
+				type: '百货',
 				isLoadMore: true,
 				restuestOk: undefined,
 				titleList: [
@@ -51,9 +51,9 @@
 					// {
 					// 	name: '推荐'
 					// },
-					{
-						name: '清仓'
-					},
+					// {
+					// 	name: '清仓'
+					// },
 					{
 						name: '百货'
 					},
@@ -148,7 +148,8 @@
 			});
 		},
 		onPullDownRefresh() {
-			console.log('下拉刷新');
+			// console.log('下拉刷新');
+			this.lists = [];
 			this.refreshing = true;
 			this.getData();
 		},
@@ -172,6 +173,7 @@
 			    },
 			getData() {
 				this.restuestOk = undefined
+				this.isLoadMore = true;
 				uni.request({
 					// url: this.$serverUrl + '/api/picture/posts.php?page=' + (this.refreshing ? 1 : this.fetchPageNum) +
 					// 	'&per_page=10',
@@ -203,15 +205,15 @@
 								uni.stopPullDownRefresh();
 								return;
 							}
-							if (this.refreshing && ret.data[0].id === this.lists[0].id) {
-								uni.showToast({
-									title: '已经最新',
-									icon: 'none',
-								});
-								this.refreshing = false;
-								uni.stopPullDownRefresh();
-								return;
-							}
+							// if (this.refreshing && ret.data[0].id === this.lists[0].id) {
+							// 	uni.showToast({
+							// 		title: '已经最新',
+							// 		icon: 'none',
+							// 	});
+							// 	this.refreshing = false;
+							// 	uni.stopPullDownRefresh();
+							// 	return;
+							// }
 							let list = [],
 								data = ret.data;
 							for (let i = 0, length = data.length; i < length; i++) {
