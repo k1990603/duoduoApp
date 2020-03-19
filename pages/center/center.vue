@@ -1,13 +1,14 @@
 <template>
 	<view class="center">
-		<view class="logo" @click="goLogin" :hover-class="!login ? 'logo-hover' : ''">
+		<view class="logo" @click="downLoad" :hover-class="!login ? 'logo-hover' : ''">
 			<image class="logo-img" :src="login ? uerInfo.avatarUrl :avatarUrl"></image>
 			<view class="logo-title">
-				<text class="uer-name">Hi，{{login ? uerInfo.name : '您未登录'}}</text>
-				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
+				<text class="uer-name">Hi，欢迎下载安卓 APP</text>
+				<!-- <text class="uer-name">Hi，{{login ? uerInfo.name : '您未登录'}}</text> -->
+				<!-- <text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text> -->
 			</view>
 		</view>
-		<view class="center-list">
+		<!-- <view class="center-list">
 			<view class="center-list-item border-bottom">
 				<text class="list-icon">&#xe60c;</text>
 				<text class="list-text">收藏图片</text>
@@ -42,7 +43,7 @@
 				<text class="list-text">账号管理</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -56,18 +57,45 @@
 			}
 		},
 		methods: {
-			goLogin() {
-				if (!this.login) {
-					uni.navigateTo({
-						url: '/pages/login/login'
-					});
-				}
-			},
-			goAbout() {
-				uni.navigateTo({
-					url: '/pages/about/about'
-				});
+			downLoad() {
+				let url = 'http://www.hjeee.com.cn/duoduo.apk'
+				uni.downloadFile({
+					url,      //文件链接
+					// header，
+					success:({statusCode,tempFIlePath})=>{
+						//statusCode状态为200表示请求成功，tempFIlePath临时路径
+						if(statusCode==200){
+							//保存到本地
+							uni.saveFile({
+								tempFIlePath,
+								success:(res)=>{
+									 //res.savedFilePath文件的保存路径
+									 //保存成功并打开文件
+									 uni.openDocument({
+										filePath:res.savedFilePath,
+										success:(res)=>console.log('成功打开文档')
+									})
+								},
+								fail:()=>console.log('下载失败')
+							})
+							}
+						},
+						fail:()=>console.log('下载失败')
+					})
+				// })
 			}
+			// goLogin() {
+			// 	if (!this.login) {
+			// 		uni.navigateTo({
+			// 			url: '/pages/login/login'
+			// 		});
+			// 	}
+			// },
+			// goAbout() {
+			// 	uni.navigateTo({
+			// 		url: '/pages/about/about'
+			// 	});
+			// }
 		}
 	}
 </script>
