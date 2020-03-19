@@ -23,26 +23,31 @@
 				pageSize: 10,
 				isLoadMore: true,
 				activeTab: 0,
-				searchName: undefined
+				searchName: ''
 			}
 		},
 		components: {
 			productList
 		},
 		onShow(){
+			// console.log(222)
+			this.lists = [];
+			this.fetchPageNum = 1
 			let that = this
 			uni.getStorage({
 			    key: 'productName',
 			    success: function (res) {
 			        console.log(res.data, 'product');
 					if (res.data) {
-						that.searchName = res.data
+						that.lists = []
+						that.searchName = res.data || ''
 						that.getData();
 					}
 			    }
 			});
 		},
 		onLoad(option) {
+			// console.log(2222)
 			let id = option.id
 			//#ifdef H5
 				var sUserAgent = navigator.userAgent.toLowerCase();
@@ -101,8 +106,9 @@
 			    key: 'productName',
 			    success: function (res) {
 			        // console.log('success');
-					that.lists = []
-					that.searchName = undefined;
+					that.lists = [];
+					this.fetchPageNum = 1;
+					that.searchName = '';
 					// that.isLoadMore = true;
 					that.refreshing = true;
 					that.getData();
@@ -148,7 +154,7 @@
 					sslVerify: false,
 					success: (res) => {
 						let ret = res.data
-						console.log(ret)
+						// console.log(ret)
 						if (ret.code !== 200) {
 							console.log('请求失败:', ret)
 						} else {

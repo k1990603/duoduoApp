@@ -183,7 +183,7 @@
 				    data: key,
 				    success: function () {
 				        // console.log('success');
-						uni.switchTab({
+						uni.navigateBack({
 							url: '/pages/new/new'
 						})
 				    }

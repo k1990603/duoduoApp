@@ -31,7 +31,7 @@
 				<view class="data-info">
 					<view class="data-block">
 						<text class="data-price left-align">
-							<text class="unit">￥</text><text class="unit-left">11.0</text>
+							<text class="unit">￥</text><text class="unit-left">{{ (item.text.minGroupPrice - item.text.couponMinOrderAmount)/1000 }}</text>
 						</text>
 						<text class="data-text">券后</text>
 					</view>
@@ -141,15 +141,37 @@
 				})
 			},
 			toDetail(item) {
-			      if (item.status) {
-			        // 双人
-			        // window.open(item.url.multiGroupLongUrl)
-			        window.open(item.url.multiGroupMobileUrl)
-			      } else {
-			        // 单人
-			        // window.open(item.url.longUrl)
-			        window.open(item.url.mobileUrl)
-			      }
+				// #ifdef H5
+					if (item.status) {
+					  // 双人
+					  // window.open(item.url.multiGroupLongUrl)
+					  window.open(item.url.multiGroupMobileUrl)
+					} else {
+					  // 单人
+					  // window.open(item.url.longUrl)
+					  window.open(item.url.mobileUrl)
+					}
+				// #endif
+				// #ifdef APP-PLUS
+					let url=""
+					if (item.status) {
+					  // 双人
+					  url = item.url.multiGroupMobileUrl
+					} else {
+					  // 单人
+					  url = item.url.mobileUrl 
+					}
+					uni.setStorage({
+					    key: 'urlName',
+					    data: url,
+					    success: function () {
+							uni.navigateTo({
+								url: '/pages/webViews/webViews'
+							})
+					    }
+					});
+				// #endif
+			      
 			    },
 			labelClick(item, status) {
 				this.$emit('labelClick', item, status)

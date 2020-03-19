@@ -51,6 +51,13 @@
 				"navigationBarTitleText": "搜索",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/webViews/webViews",
+			"style": {
+				"navigationBarTitleText": "跳转拼多多...",
+				"enablePullDownRefresh": false
+			}
 		}
 		// {
 		// 	"path": "pages/tag/tag",

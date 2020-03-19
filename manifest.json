@@ -1,6 +1,6 @@
 {
     "name" : "多多优惠券",
-    "appid" : "__UNI__4600675",
+    "appid" : "__UNI__6EF4506",
     "description" : "多多优惠券",
     "transformPx" : false,
     "icons" : [
@@ -74,6 +74,9 @@
                 "permissions" : [
                     "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>"
                 ]
+            },
+            "ios" : {
+                "idfa" : false
             }
         },
         "splashscreen" : {
@@ -82,7 +85,8 @@
         },
         "modules" : {
             "Share" : {}
-        }
+        },
+        "nvueLaunchMode" : "fast"
     },
     // 5+App特有相关
     "quickapp" : {},
