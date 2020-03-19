@@ -23,7 +23,7 @@
 				pageSize: 10,
 				isLoadMore: true,
 				activeTab: 0,
-				searchName: undefined
+				searchName: ''
 			}
 		},
 		components: {
@@ -36,7 +36,7 @@
 			    success: function (res) {
 			        console.log(res.data, 'product');
 					if (res.data) {
-						that.searchName = res.data
+						that.searchName = res.data || ''
 						that.getData();
 					}
 			    }
@@ -102,7 +102,7 @@
 			    success: function (res) {
 			        // console.log('success');
 					that.lists = []
-					that.searchName = undefined;
+					that.searchName = '';
 					// that.isLoadMore = true;
 					that.refreshing = true;
 					that.getData();
