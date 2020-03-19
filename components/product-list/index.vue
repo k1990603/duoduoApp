@@ -31,7 +31,7 @@
 				<view class="data-info">
 					<view class="data-block">
 						<text class="data-price left-align">
-							<text class="unit">￥</text><text class="unit-left">11.0</text>
+							<text class="unit">￥</text><text class="unit-left">{{ (item.text.minGroupPrice - item.text.couponMinOrderAmount)/1000 }}</text>
 						</text>
 						<text class="data-text">券后</text>
 					</view>
