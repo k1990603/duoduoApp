@@ -37,12 +37,12 @@
 			uni.getStorage({
 			    key: 'productName',
 			    success: function (res) {
-			        console.log(res.data, 'product');
-					if (res.data) {
-						that.lists = []
-						that.searchName = res.data || ''
-						that.getData();
-					}
+			        // console.log(res.data, 'product');
+            if (res.data) {
+              that.lists = []
+              that.searchName = res.data || ''
+              that.getData();
+            }
 			    }
 			});
 		},
@@ -107,7 +107,7 @@
 			    success: function (res) {
 			        // console.log('success');
 					that.lists = [];
-					this.fetchPageNum = 1;
+					that.fetchPageNum = 1;
 					that.searchName = '';
 					// that.isLoadMore = true;
 					that.refreshing = true;
