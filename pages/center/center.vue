@@ -5,8 +5,11 @@
 			<view class="logo-title">
 				<text class="uer-name">Hi，欢迎下载安卓 APP</text>
 				<!-- <text class="uer-name">Hi，{{login ? uerInfo.name : '您未登录'}}</text> -->
-				<!-- <text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text> -->
+				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
 			</view>
+		</view>
+		<view height="224" class="imgcode" @click="goDetail()">
+			<img src="../../static/downcode.png" mode=""></img>
 		</view>
 		<!-- <view class="center-list">
 			<view class="center-list-item border-bottom">
@@ -53,37 +56,22 @@
 			return {
 				login: false,
 				avatarUrl: '/static/logo.png',
-				uerInfo: {}
+				uerInfo: {},
+				img: '../../static/downcode.png'
 			}
 		},
 		methods: {
 			downLoad() {
+				console.log(0)
 				let url = 'http://www.hjeee.com.cn/duoduo.apk'
-				uni.downloadFile({
-					url,      //文件链接
-					// header，
-					success:({statusCode,tempFIlePath})=>{
-						//statusCode状态为200表示请求成功，tempFIlePath临时路径
-						if(statusCode==200){
-							//保存到本地
-							uni.saveFile({
-								tempFIlePath,
-								success:(res)=>{
-									 //res.savedFilePath文件的保存路径
-									 //保存成功并打开文件
-									 uni.openDocument({
-										filePath:res.savedFilePath,
-										success:(res)=>console.log('成功打开文档')
-									})
-								},
-								fail:()=>console.log('下载失败')
-							})
-							}
-						},
-						fail:()=>console.log('下载失败')
-					})
-				// })
-			}
+				window.open(url)
+			},
+			goDetail() {
+				let e = {text:{goodsThumbnailUrl: this.img}}
+				uni.navigateTo({
+					url: '../detail/detail?data=' + encodeURIComponent(JSON.stringify(e))
+				})
+			},
 			// goLogin() {
 			// 	if (!this.login) {
 			// 		uni.navigateTo({
@@ -101,4 +89,12 @@
 </script>
 
 <style>
+	.center {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.imgcode {
+		margin-top: 190upx;
+	}
 </style>
